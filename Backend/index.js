@@ -26,21 +26,23 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
+      // Fallback for tools like Postman or internal system checks
+      if (!origin) {
+        return callback(null, "https://leaf-note-ui.vercel.app");
+      }
       
-      // Check if origin is in the main array OR if it's a dynamic Vercel preview domain from your account
       const isVercelPreview = origin.startsWith("https://leaf-note-") && origin.endsWith(".vercel.app");
       
-      if (allowedOrigins.indexOf(origin) !== -1 || isVercelPreview) {
-        return callback(null, true);
+      if (allowedOrigins.includes(origin) || isVercelPreview) {
+        return callback(null, origin); // Reflects the exact matching origin string back to the browser
       } else {
-        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-        return callback(new Error(msg), false);
+        return callback(new Error('Not allowed by CORS'), false);
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
+    credentials: true,
+    optionsSuccessStatus: 200 // Ensures legacy browsers and preflights pass smoothly
   })
 );
 app.get("/", (req, res) => {
