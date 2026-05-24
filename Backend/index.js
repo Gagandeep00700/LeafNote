@@ -25,24 +25,11 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) {
-        return callback(null, "https://leaf-note-ui.vercel.app");
-      }
-      
-      // Dynamic Vercel check suffix
-      const isMyVercelDomain = origin.endsWith("-gagandeep00700s-projects.vercel.app") || origin === "https://leaf-note-ui.vercel.app";
-      
-      if (allowedOrigins.includes(origin) || isMyVercelDomain) {
-        return callback(null, origin); 
-      } else {
-        return callback(new Error('Not allowed by CORS'), false);
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: [
+      "http://localhost:5173",
+      "https://leaf-note-ui.vercel.app",
+    ],
     credentials: true,
-    optionsSuccessStatus: 200
   })
 );
 
@@ -227,10 +214,11 @@ app.get("/search-notes", authenticateToken, async (req, res) => {
 })
 
 const PORT = process.env.PORT || 8000;
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-    });
+
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 }
 
-export default app
+export default app;
