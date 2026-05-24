@@ -23,18 +23,26 @@ const allowedOrigins = [
   "https://leaf-note-ui.vercel.app"
 ];
 
+const app = express();
+app.use(express.json());
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://leaf-note-ui.vercel.app"
+];
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Fallback for tools like Postman or internal system checks
       if (!origin) {
         return callback(null, "https://leaf-note-ui.vercel.app");
       }
       
-      const isVercelPreview = origin.startsWith("https://leaf-note-") && origin.endsWith(".vercel.app");
+      // ADD THE LINE RIGHT HERE:
+      const isMyVercelDomain = origin.endsWith("-gagandeep00700s-projects.vercel.app") || origin === "https://leaf-note-ui.vercel.app";
       
-      if (allowedOrigins.includes(origin) || isVercelPreview) {
-        return callback(null, origin); // Reflects the exact matching origin string back to the browser
+      if (allowedOrigins.includes(origin) || isMyVercelDomain) {
+        return callback(null, origin); 
       } else {
         return callback(new Error('Not allowed by CORS'), false);
       }
@@ -42,9 +50,10 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-    optionsSuccessStatus: 200 // Ensures legacy browsers and preflights pass smoothly
+    optionsSuccessStatus: 200
   })
 );
+
 app.get("/", (req, res) => {
     res.json({ data: "hello" })
 })
