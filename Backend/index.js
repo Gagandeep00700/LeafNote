@@ -18,19 +18,9 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://leaf-note-ui.vercel.app"
-];
 
 app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://leaf-note-ui.vercel.app",
-    ],
-    credentials: true,
-  })
+  cors()
 );
 
 app.get("/", (req, res) => {
