@@ -20,7 +20,12 @@ app.use(express.json());
 
 
 app.use(
-  cors()
+  cors({
+    origin: "*", // Allows any frontend origin or preview link to connect smoothly
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200 // Handles preflight check response parsing on legacy browsers
+  })
 );
 
 app.get("/", (req, res) => {
