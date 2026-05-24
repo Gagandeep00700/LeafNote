@@ -1,2 +1,2 @@
-export const BASE_URL = 'http://localhost:8000' //backend url
+export const BASE_URL = "https://leaf-note-fu977kt8v-gagandeep00700s-projects.vercel.app"; 
 
