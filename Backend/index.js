@@ -11,20 +11,22 @@ import authenticateToken from './utilties.js'
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
 }
-connectDB()
+
+// 1. Initialize the database connection immediately
+connectDB();
+
 const app = express();
 app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://leaf-note-ui.vercel.app" // live Vercel frontend URL
+  "https://leaf-note-ui.vercel.app"
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      
       if (allowedOrigins.indexOf(origin) === -1) {
         const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
         return callback(new Error(msg), false);
@@ -36,6 +38,7 @@ app.use(
     credentials: true
   })
 );
+
 app.get("/", (req, res) => {
     res.json({ data: "hello" })
 })
@@ -216,11 +219,12 @@ app.get("/search-notes", authenticateToken, async (req, res) => {
     }
 })
 
+// 2. Separate local listen execution layout entirely from cloud exports
 const PORT = process.env.PORT || 8000;
-connectDB().then(() => {
+if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
-    })
-})
+    });
+}
 
 export default app
