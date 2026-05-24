@@ -9,7 +9,7 @@ import Note from './models/notes.model.js'
 import authenticateToken from './utilties.js'
 
 dotenv.config();
-
+connectDB()
 const app = express();
 app.use(express.json());
 
