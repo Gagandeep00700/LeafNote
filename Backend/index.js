@@ -23,14 +23,6 @@ const allowedOrigins = [
   "https://leaf-note-ui.vercel.app"
 ];
 
-const app = express();
-app.use(express.json());
-
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://leaf-note-ui.vercel.app"
-];
-
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -38,7 +30,7 @@ app.use(
         return callback(null, "https://leaf-note-ui.vercel.app");
       }
       
-      // ADD THE LINE RIGHT HERE:
+      // Dynamic Vercel check suffix
       const isMyVercelDomain = origin.endsWith("-gagandeep00700s-projects.vercel.app") || origin === "https://leaf-note-ui.vercel.app";
       
       if (allowedOrigins.includes(origin) || isMyVercelDomain) {
@@ -234,7 +226,6 @@ app.get("/search-notes", authenticateToken, async (req, res) => {
     }
 })
 
-// 2. Separate local listen execution layout entirely from cloud exports
 const PORT = process.env.PORT || 8000;
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
