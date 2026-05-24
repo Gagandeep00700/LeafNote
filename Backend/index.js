@@ -8,7 +8,9 @@ import User from './models/users.model.js'
 import Note from './models/notes.model.js'
 import authenticateToken from './utilties.js'
 
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+}
 connectDB()
 const app = express();
 app.use(express.json());
