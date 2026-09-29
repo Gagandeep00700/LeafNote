@@ -2,7 +2,6 @@
 
 **LeafNote** is a modern, full-stack note-taking web application built on the MERN stack[cite: 1, 2]. It features a clean, responsive UI with smooth animations, JWT-based user authentication, real-time search, and instant note organization[cite: 1, 2].
 
- **Live Demo:** [https://leaf-note-ui.vercel.app](https://leaf-note-ui.vercel.app)
 
 ---
 
